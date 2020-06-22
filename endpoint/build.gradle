@@ -1,4 +1,6 @@
 dependencies {
     implementation project(':common')
     implementation project(':domain')
+
+    compileOnly 'io.swagger.core.v3:swagger-annotations:2.1.2'
 }

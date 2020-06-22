@@ -4,6 +4,7 @@ import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import com.dac.chatting.api.AuthApi;
 import com.dac.chatting.di.CommonModule;
+import com.dac.chatting.di.EndpointModule;
 import com.google.inject.Injector;
 
 import static com.google.inject.Guice.createInjector;
@@ -12,7 +13,7 @@ import static com.google.inject.Stage.PRODUCTION;
 public class App {
 
     public static void main(String[] args) {
-        final Injector injector = createInjector(PRODUCTION, new CommonModule("cht-auth-system"));
+        final Injector injector = createInjector(PRODUCTION, new EndpointModule(), new CommonModule("cht-auth-system"));
         new Server(
             10101,
             injector.getInstance(ActorSystem.class),
