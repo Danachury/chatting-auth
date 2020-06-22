@@ -1,2 +1,5 @@
 rootProject.name = 'chatting-auth'
-include 'common', 'data-connect', 'domain', 'endpoint'
+include 'common'
+include 'data-connect'
+include 'domain'
+include 'endpoint'

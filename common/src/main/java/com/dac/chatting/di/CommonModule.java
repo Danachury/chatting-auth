@@ -1,9 +1,9 @@
-package com.chatting.di;
+package com.dac.chatting.di;
 
 import akka.actor.ActorSystem;
 import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
-import com.chatting.config.ConfigProvider;
+import com.dac.chatting.config.ConfigProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;

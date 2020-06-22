@@ -1,4 +1,4 @@
-package com.chatting.api;
+package com.dac.chatting;
 
 import akka.http.javadsl.server.Route;
 

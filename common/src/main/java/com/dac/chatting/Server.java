@@ -1,4 +1,4 @@
-package com.chatting;
+package com.dac.chatting;
 
 import akka.actor.ActorSystem;
 import akka.event.Logging;

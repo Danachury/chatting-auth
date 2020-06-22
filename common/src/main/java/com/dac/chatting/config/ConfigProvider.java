@@ -1,4 +1,4 @@
-package com.chatting.config;
+package com.dac.chatting.config;
 
 import com.typesafe.config.Config;
 
