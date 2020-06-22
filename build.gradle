@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
     id 'io.swagger.core.v3.swagger-gradle-plugin' version '2.1.2'
 }
 
@@ -10,8 +11,7 @@ allprojects {
     targetCompatibility = '14.0.1'
 
     sourceSets {
-        main.java.srcDir 'src/main'
-        test.java.srcDir 'src/test'
+        main.java.srcDirs = ['src']
     }
 }
 
@@ -32,3 +32,5 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 }
+
+mainClassName = 'com.chatting.App'
