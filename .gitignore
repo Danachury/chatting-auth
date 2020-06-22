@@ -1,0 +1,11 @@
+# IDE's
+.idea
+
+# Gradle
+.gradle/
+**/build/
+native/
+daemon/
+*.log
+**wrapper/
+./wrapper
