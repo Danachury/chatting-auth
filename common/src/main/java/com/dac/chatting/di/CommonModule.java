@@ -1,7 +1,6 @@
 package com.dac.chatting.di;
 
 import akka.actor.ActorSystem;
-import akka.stream.ActorMaterializer;
 import akka.stream.Materializer;
 import com.dac.chatting.config.ConfigProvider;
 import com.google.inject.AbstractModule;
@@ -29,6 +28,6 @@ public class CommonModule extends AbstractModule {
     @Provides
     @Singleton
     Materializer materializer(final ActorSystem actorSystem) {
-        return ActorMaterializer.create(actorSystem);
+        return Materializer.apply(actorSystem);
     }
 }
