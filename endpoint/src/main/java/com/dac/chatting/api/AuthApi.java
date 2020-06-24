@@ -64,7 +64,7 @@ public class AuthApi extends BaseRoute implements RestApi, CustomExceptionHandle
      * Empty relative path or slash, at the end
      */
     @Operation(
-        method = "POST",
+        method = "GET",
         summary = "Returns OK if service is available")
     @ApiResponses(@ApiResponse(responseCode = "200", description = "Success OK"))
     @Path("/")
