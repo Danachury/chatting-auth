@@ -1,4 +1,4 @@
-package com.dac.chatting.concurrent;
+package com.dac.chatting.adapters;
 
 import com.dac.chatting.exceptions.NullArgumentException;
 import io.reactivex.rxjava3.core.Observable;
