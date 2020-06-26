@@ -34,7 +34,7 @@ public class AuthApi extends BaseRoute implements RestApi, CustomExceptionHandle
     @Override
     public Route mainRoute() {
         return concat(
-            api_10(() -> concat(this.authRoute.route(), root())),
+            api_10(() -> concat(this.authRoute.authenticate(), root())),
             mapping(),
             docs(),
             root()
