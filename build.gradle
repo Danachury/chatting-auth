@@ -38,11 +38,15 @@ subprojects {
     }
 
     dependencies {
-        implementation 'com.google.inject:guice:4.2.3'
+        implementation 'com.google.inject.extensions:guice-servlet:4.2.3'
         implementation 'com.typesafe.akka:akka-http_2.13:10.1.12'
         implementation 'com.typesafe.akka:akka-stream_2.13:2.6.6'
         implementation 'com.typesafe.akka:akka-slf4j_2.13:2.6.6'
         implementation 'org.jetbrains:annotations:19.0.0'
+        implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
+        implementation 'joda-time:joda-time:2.10.6'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.1'
+        implementation 'org.slf4j:slf4j-simple:1.7.30'
 
         compileOnly 'org.projectlombok:lombok:1.18.12'
         compileOnly 'javax.ws.rs:javax.ws.rs-api:2.1.1'
