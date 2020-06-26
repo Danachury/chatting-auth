@@ -1,20 +1,20 @@
 package com.dac.chatting.repository;
 
-import com.dac.chatting.entities.Account;
-import rx.Observable;
+import com.dac.chatting.entities.AccountEntity;
+import io.reactivex.rxjava3.core.Observable;
 
 import java.util.Collection;
 
 public interface AccountsRepository {
 
     /**
-     * @return {@link Collection} of results
+     * @return {@link Collection} of {@link AccountEntity}
      */
-    Observable<Collection<Account>> query();
+    Observable<Collection<AccountEntity>> query();
 
     /**
      * @param phone criteria
-     * @return {@link Account} That match with {@param phone}
+     * @return {@link AccountEntity} That match with {@param phone}
      */
-    Observable<Account> query(String phone);
+    Observable<AccountEntity> query(String phone);
 }

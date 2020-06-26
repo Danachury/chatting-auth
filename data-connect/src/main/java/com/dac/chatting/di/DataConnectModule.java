@@ -2,8 +2,10 @@ package com.dac.chatting.di;
 
 import com.dac.chatting.repository.AccountsRepository;
 import com.dac.chatting.repository.pg.AccountsPgRepository;
-import com.github.pgasync.ConnectionPoolBuilder;
-import com.github.pgasync.Db;
+import com.github.jasync.sql.db.ConnectionPoolConfiguration;
+import com.github.jasync.sql.db.pool.ConnectionPool;
+import com.github.jasync.sql.db.postgresql.PostgreSQLConnection;
+import com.github.jasync.sql.db.postgresql.PostgreSQLConnectionBuilder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -18,15 +20,16 @@ public class DataConnectModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public Db database(Config config) {
+    public ConnectionPool<PostgreSQLConnection> database(Config config) {
         final Config pgConfig = config.getConfig("postgres-pool-config");
-        return new ConnectionPoolBuilder()
-            .hostname(pgConfig.getString("host"))
-            .port(pgConfig.getInt("port"))
-            .database(pgConfig.getString("database"))
-            .username(pgConfig.getString("user"))
-            .password(pgConfig.getString("password"))
-            .poolSize(pgConfig.getInt("pool-size"))
-            .build();
+        final ConnectionPoolConfiguration pgPool = new ConnectionPoolConfiguration(
+            pgConfig.getString("host"),
+            pgConfig.getInt("port"),
+            pgConfig.getString("database"),
+            pgConfig.getString("user"),
+            pgConfig.getString("password"),
+            pgConfig.getInt("pool-size")
+        );
+        return PostgreSQLConnectionBuilder.createConnectionPool(pgPool);
     }
 }
