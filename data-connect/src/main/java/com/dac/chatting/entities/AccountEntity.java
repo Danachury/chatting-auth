@@ -9,7 +9,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -50,7 +53,7 @@ public interface AccountEntity {
         return ImmutableAccountEntity
             .builder()
             .phone(requireNonNull(row.getString("phone")))
-            .phone(requireNonNull(row.getString("password")))
+            .password(requireNonNull(row.getString("password")))
             .build();
     }
 }
