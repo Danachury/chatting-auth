@@ -38,7 +38,7 @@ public class AccountsPgRepository implements AccountsRepository {
     @Override
     public Observable<AccountEntity> query(String phone) {
         return Observable
-            .fromFuture(this.pgPool.sendPreparedStatement(WHERE(phone), Collections.singletonList(phone)))
+            .fromFuture(this.pgPool.sendPreparedStatement(WHERE("phone"), Collections.singletonList(phone)))
             .map(queryResult -> queryResult.getRows().get(0))
             .map(AccountEntity::fromRow);
     }
