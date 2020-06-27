@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.std.StdScalarDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -19,6 +20,7 @@ public interface JsonSupport {
 
     static ObjectMapper jsonMapper() {
         return new ObjectMapper()
+            .registerModule(new Jdk8Module())
             .registerModule(new CustomJodaModule());
     }
 }
