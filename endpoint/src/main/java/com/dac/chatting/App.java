@@ -2,7 +2,7 @@ package com.dac.chatting;
 
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
-import com.dac.chatting.api.AuthApi;
+import com.dac.chatting.api.Api;
 import com.dac.chatting.di.CommonModule;
 import com.dac.chatting.di.DataConnectModule;
 import com.dac.chatting.di.DomainModule;
@@ -20,7 +20,7 @@ public class App {
             10101,
             injector.getInstance(ActorSystem.class),
             injector.getInstance(Materializer.class),
-            injector.getInstance(AuthApi.class)
+            injector.getInstance(Api.class)
         ).run();
     }
 

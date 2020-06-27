@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @OpenAPIDefinition
-public interface AuthRest {
+public interface ApiAuth {
 
     @Operation(
         method = "POST",

@@ -16,5 +16,5 @@ public interface AccountsService {
      * @param phone criteria
      * @return The {@link Account} matching with {@param phone}
      */
-    Observable<Account> authenticate(String phone);
+    Observable<Account> query(String phone);
 }

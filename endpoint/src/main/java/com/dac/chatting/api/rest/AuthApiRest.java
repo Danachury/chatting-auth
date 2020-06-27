@@ -1,12 +1,11 @@
-package com.dac.chatting.api;
-
+package com.dac.chatting.api.rest;
 
 import akka.http.javadsl.server.Route;
-import com.dac.chatting.RestApi;
+import com.dac.chatting.api.Api;
 import com.dac.chatting.api.handlers.CustomExceptionHandler;
 import com.dac.chatting.api.handlers.CustomRejectionHandler;
-import com.dac.chatting.api.routes.AuthRoute;
-import com.dac.chatting.api.routes.BaseRoute;
+import com.dac.chatting.api.rest.routes.AuthRoute;
+import com.dac.chatting.api.rest.routes.BaseRoute;
 import com.google.inject.Inject;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,12 +21,12 @@ import static akka.http.javadsl.server.PathMatchers.segment;
 
 @OpenAPIDefinition
 @Path("/")
-public class AuthApi extends BaseRoute implements RestApi, CustomExceptionHandler, CustomRejectionHandler {
+public class AuthApiRest extends BaseRoute implements Api, CustomExceptionHandler, CustomRejectionHandler {
 
     private final AuthRoute authRoute;
 
     @Inject
-    public AuthApi(AuthRoute authRoute) {
+    public AuthApiRest(AuthRoute authRoute) {
         this.authRoute = authRoute;
     }
 

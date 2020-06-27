@@ -1,4 +1,4 @@
-package com.dac.chatting.api.routes;
+package com.dac.chatting.api.rest.routes;
 
 import akka.event.LoggingAdapter;
 import akka.http.javadsl.server.AllDirectives;

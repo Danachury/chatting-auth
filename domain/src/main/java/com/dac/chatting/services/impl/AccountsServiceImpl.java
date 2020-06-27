@@ -34,10 +34,10 @@ public class AccountsServiceImpl implements AccountsService {
     }
 
     /**
-     * @see AccountsService#authenticate(String)
+     * @see AccountsService#query(String)
      */
     @Override
-    public Observable<Account> authenticate(String phone) {
+    public Observable<Account> query(String phone) {
         return this.accountsRepository
             .query(phone)
             .map(Account::fromEntity);

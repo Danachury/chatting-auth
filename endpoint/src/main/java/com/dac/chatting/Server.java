@@ -6,6 +6,7 @@ import akka.event.LoggingAdapter;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
 import akka.stream.Materializer;
+import com.dac.chatting.api.Api;
 
 import java.util.Optional;
 
@@ -18,13 +19,13 @@ public class Server {
     private final ActorSystem actorSystem;
     private final Integer port;
     private final Materializer materializer;
-    private final RestApi api;
+    private final Api api;
 
-    public Server(final Integer port, final ActorSystem actorSystem, final Materializer materializer, final RestApi api) {
+    public Server(final Integer port, final ActorSystem actorSystem, final Materializer materializer, final Api api) {
         this(port, actorSystem, materializer, api, Optional.empty());
     }
 
-    public Server(final Integer port, final ActorSystem actorSystem, final Materializer materializer, final RestApi api, Optional<LoggingAdapter> logger) {
+    public Server(final Integer port, final ActorSystem actorSystem, final Materializer materializer, final Api api, Optional<LoggingAdapter> logger) {
         this.port = port;
         this.actorSystem = actorSystem;
         this.materializer = materializer;
