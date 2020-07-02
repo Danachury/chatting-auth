@@ -57,4 +57,11 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok:1.18.8'
         annotationProcessor 'org.immutables:value:2.8.2'
     }
+
+    test {
+        useTestNG {
+            groupByInstances = true
+        }
+    }
+
 }
