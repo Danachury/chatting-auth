@@ -1,6 +1,5 @@
 package com.dac.chatting.adapters;
 
-import com.dac.chatting.exceptions.NullArgumentException;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +19,8 @@ public interface AsyncAdapters {
      * @see Single
      * @see CompletionStage
      */
-    @NotNull(exception = NullArgumentException.class)
-    static <T> CompletionStage<T> adaptSingle(Single<T> single) {
+    @NotNull
+    static <T> CompletionStage<T> adaptSingle(@NotNull Single<T> single) {
         final CompletableFuture<T> future = new CompletableFuture<>();
         single.subscribe(future::complete, future::completeExceptionally);
         return future;
@@ -36,7 +35,7 @@ public interface AsyncAdapters {
      * @see Single
      * @see CompletionStage
      */
-    @NotNull(exception = NullArgumentException.class)
+    @NotNull
     static <T> Single<T> adaptCompletionStage(CompletionStage<T> completionStage) {
         return Single.create(subscriber ->
             completionStage.handle((t, throwable) -> {
@@ -56,8 +55,8 @@ public interface AsyncAdapters {
      * @param <T>        Adapter value
      * @return new {@link CompletionStage} instance
      */
-    @NotNull(exception = NullArgumentException.class)
-    static <T> CompletionStage<T> adaptObservable(Observable<T> observable) {
+    @NotNull
+    static <T> CompletionStage<T> adaptObservable(@NotNull Observable<T> observable) {
         final CompletableFuture<T> future = new CompletableFuture<>();
         observable.subscribe(future::complete, future::completeExceptionally);
         return future;

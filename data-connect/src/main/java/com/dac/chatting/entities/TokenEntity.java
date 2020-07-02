@@ -15,53 +15,49 @@ import java.util.stream.StreamSupport;
 import static java.util.Objects.requireNonNull;
 
 @Value.Immutable
-public interface AccountEntity {
+public interface TokenEntity {
 
     Integer id();
 
-    String phone();
+    Integer accountId();
 
-    String email();
+    String token();
 
-    String dialCode();
-
-    String isoCode();
+    Long expirationTime();
 
     Date creationDate();
 
+    Date lastRefreshDate();
+
 
     @Contract(pure = true)
-    @NotNull
-    static Collection<AccountEntity> fromQueryResult(@NotNull QueryResult queryResult) {
+    static Collection<TokenEntity> fromQueryResult(@NotNull QueryResult queryResult) {
         return fromResultSet(queryResult.getRows());
     }
 
     @Contract(pure = true)
-    @NotNull
-    static Collection<AccountEntity> fromResultSet(@NotNull ResultSet resultSet) {
+    static Collection<TokenEntity> fromResultSet(@NotNull ResultSet resultSet) {
         return fromIterator(resultSet.iterator());
     }
 
     @Contract(pure = true)
-    @NotNull
-    static Collection<AccountEntity> fromIterator(@NotNull Iterator<RowData> iterator) {
+    static Collection<TokenEntity> fromIterator(@NotNull Iterator<RowData> iterator) {
         return StreamSupport
             .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.IMMUTABLE), false)
-            .map(AccountEntity::fromRow)
+            .map(TokenEntity::fromRow)
             .collect(Collectors.toUnmodifiableList());
     }
 
     @Contract(pure = true)
-    @NotNull
-    static @Unmodifiable AccountEntity fromRow(@NotNull RowData row) {
-        return ImmutableAccountEntity
+    static @Unmodifiable @NotNull TokenEntity fromRow(@NotNull RowData row) {
+        return ImmutableTokenEntity
             .builder()
             .id(requireNonNull(row.getInt("id")))
-            .phone(requireNonNull(row.getString("phone")))
-            .email(requireNonNull(row.getString("email")))
-            .dialCode(requireNonNull(row.getString("dial_code")))
-            .isoCode(requireNonNull(row.getString("iso_code")))
+            .accountId(requireNonNull(row.getInt("id_account")))
+            .token(requireNonNull(row.getString("token")))
+            .expirationTime(requireNonNull(row.getLong("expiration_time")))
             .creationDate(requireNonNull(row.getDate("creation_date")).toDate())
+            .lastRefreshDate(requireNonNull(row.getDate("last_refresh_date")).toDate())
             .build();
     }
 }

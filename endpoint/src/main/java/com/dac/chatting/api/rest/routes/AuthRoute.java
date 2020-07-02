@@ -9,6 +9,7 @@ import com.dac.chatting.api.ApiAuth;
 import com.dac.chatting.api.handlers.CustomExceptionHandler;
 import com.dac.chatting.api.handlers.CustomRejectionHandler;
 import com.dac.chatting.bussisness.bobj.Account;
+import com.dac.chatting.exceptions.AccountNotFoundException;
 import com.dac.chatting.services.AccountsService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.inject.Inject;
@@ -17,8 +18,7 @@ import scala.concurrent.duration.FiniteDuration;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
-import static akka.http.javadsl.model.StatusCodes.INTERNAL_SERVER_ERROR;
-import static akka.http.javadsl.model.StatusCodes.OK;
+import static akka.http.javadsl.model.StatusCodes.*;
 import static com.dac.chatting.adapters.AsyncAdapters.adaptObservable;
 import static com.dac.chatting.json.JsonSupport.jsonMapper;
 
@@ -50,7 +50,11 @@ public class AuthRoute extends BaseRoute implements ApiAuth, CustomExceptionHand
                             return complete(INTERNAL_SERVER_ERROR, "Failed mapping account.");
                         }
                     } else {
-                        return complete(INTERNAL_SERVER_ERROR, "Something was wrong.");
+                        final Exception exception = accTry.failed().getOrElse(() -> new Exception("Something was wrong."));
+                        if (exception instanceof AccountNotFoundException) {
+                            return complete(NO_CONTENT);
+                        }
+                        return complete(INTERNAL_SERVER_ERROR, exception.getMessage());
                     }
                 });
             })

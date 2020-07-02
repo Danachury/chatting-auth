@@ -1,6 +1,7 @@
 package com.dac.chatting.repository.pg;
 
 import com.dac.chatting.entities.AccountEntity;
+import com.dac.chatting.exceptions.AccountNotFoundException;
 import com.dac.chatting.repository.AccountsRepository;
 import com.github.jasync.sql.db.pool.ConnectionPool;
 import com.github.jasync.sql.db.postgresql.PostgreSQLConnection;
@@ -10,8 +11,8 @@ import io.reactivex.rxjava3.core.Observable;
 import java.util.Collection;
 import java.util.Collections;
 
-import static com.dac.chatting.entities.SqlStatement.QUERY_ALL;
-import static com.dac.chatting.entities.SqlStatement.WHERE;
+import static com.dac.chatting.repository.pg.statements.SqlStatement.SELECT_FROM;
+import static com.dac.chatting.repository.pg.statements.SqlStatement.SELECT_WHERE;
 
 public class AccountsPgRepository implements AccountsRepository {
 
@@ -28,7 +29,7 @@ public class AccountsPgRepository implements AccountsRepository {
     @Override
     public Observable<Collection<AccountEntity>> query() {
         return Observable
-            .fromFuture(this.pgPool.sendPreparedStatement(QUERY_ALL))
+            .fromFuture(this.pgPool.sendPreparedStatement(SELECT_FROM("accounts")))
             .map(AccountEntity::fromQueryResult);
     }
 
@@ -38,8 +39,12 @@ public class AccountsPgRepository implements AccountsRepository {
     @Override
     public Observable<AccountEntity> query(String phone) {
         return Observable
-            .fromFuture(this.pgPool.sendPreparedStatement(WHERE("phone"), Collections.singletonList(phone)))
-            .map(queryResult -> queryResult.getRows().get(0))
+            .fromFuture(this.pgPool.sendPreparedStatement(SELECT_WHERE("accounts", "phone"), Collections.singletonList(phone)))
+            .flatMap(queryResult -> {
+                if (queryResult.getRows().isEmpty())
+                    return Observable.error(new AccountNotFoundException("[" + phone + "] Not found."));
+                return Observable.just(queryResult.getRows().get(0));
+            })
             .map(AccountEntity::fromRow);
     }
 }
