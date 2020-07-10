@@ -1,0 +1,7 @@
+POST http://localhost:10101/api/v1/authenticate
+
+3507646399
+
+###
+
+GET http://localhost:10101/api/health

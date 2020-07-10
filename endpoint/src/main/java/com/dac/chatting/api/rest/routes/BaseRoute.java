@@ -20,4 +20,6 @@ public abstract class BaseRoute extends AllDirectives implements ServiceExceptio
             )
         );
     }
+
+    protected abstract Route[] v1Routes();
 }

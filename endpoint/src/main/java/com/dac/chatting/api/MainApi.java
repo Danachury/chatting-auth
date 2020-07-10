@@ -3,7 +3,7 @@ package com.dac.chatting.api;
 import akka.http.javadsl.server.Route;
 import com.dac.chatting.Server;
 
-public interface Api {
+public interface MainApi {
 
     /**
      * Main Server Api.

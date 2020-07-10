@@ -5,34 +5,37 @@ import akka.http.javadsl.model.ContentTypes;
 import akka.http.javadsl.server.Route;
 import akka.stream.Materializer;
 import akka.util.ByteString;
-import com.dac.chatting.api.ApiAuth;
+import com.dac.chatting.api.AuthenticationApi;
 import com.dac.chatting.api.handlers.CustomExceptionHandler;
 import com.dac.chatting.api.handlers.CustomRejectionHandler;
-import com.dac.chatting.bussisness.bobj.Account;
 import com.dac.chatting.exceptions.AccountNotFoundException;
 import com.dac.chatting.services.AccountsService;
+import com.dac.chatting.services.AuthenticationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.inject.Inject;
+import lombok.extern.slf4j.Slf4j;
 import scala.concurrent.duration.FiniteDuration;
 
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
 import static akka.http.javadsl.model.StatusCodes.*;
-import static com.dac.chatting.adapters.AsyncAdapters.adaptObservable;
 import static com.dac.chatting.json.JsonSupport.jsonMapper;
 
-public class AuthRoute extends BaseRoute implements ApiAuth, CustomExceptionHandler, CustomRejectionHandler {
+@Slf4j
+public class AuthenticationRoute extends BaseRoute implements AuthenticationApi, CustomExceptionHandler, CustomRejectionHandler {
 
     private final Marshaller<ByteString, ByteString> jwtRender = Marshaller.withFixedContentType(ContentTypes.APPLICATION_JSON, t -> t);
     private static final FiniteDuration timeout = FiniteDuration.create(3, TimeUnit.SECONDS);
 
     private final AccountsService accountsService;
+    private final AuthenticationService authenticationService;
     private final Materializer materializer;
 
     @Inject
-    public AuthRoute(AccountsService accountsService, Materializer materializer) {
+    public AuthenticationRoute(AccountsService accountsService, Materializer materializer, AuthenticationService authenticationService) {
         this.accountsService = accountsService;
+        this.authenticationService = authenticationService;
         this.materializer = materializer;
     }
 
@@ -40,9 +43,12 @@ public class AuthRoute extends BaseRoute implements ApiAuth, CustomExceptionHand
     public Route authenticate() {
         return pathPrefix("authenticate", () ->
             extractStrictEntity(timeout, strict -> {
+
                 final String phone = strict.getData().decodeString(ByteString.UTF_8());
-                final CompletionStage<Account> stage = adaptObservable(this.accountsService.query(phone));
-                return onComplete(() -> stage, accTry -> {
+                final CompletionStage<String> stage = this.authenticationService.generateToken(phone);
+                log.info("Querying user " + phone);
+
+                return onComplete(stage, accTry -> {
                     if (accTry.isSuccess()) {
                         try {
                             return complete(OK, jsonMapper().writeValueAsString(accTry.get()));
@@ -59,5 +65,12 @@ public class AuthRoute extends BaseRoute implements ApiAuth, CustomExceptionHand
                 });
             })
         );
+    }
+
+    @Override
+    public Route[] v1Routes() {
+        return new Route[]{
+            this.authenticate()
+        };
     }
 }

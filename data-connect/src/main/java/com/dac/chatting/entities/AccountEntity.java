@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static com.dac.chatting.date.DateUtil.DATE_FORMAT;
 import static java.util.Objects.requireNonNull;
 
 @Value.Immutable
@@ -63,5 +64,15 @@ public interface AccountEntity {
             .isoCode(requireNonNull(row.getString("iso_code")))
             .creationDate(requireNonNull(row.getDate("creation_date")).toDate())
             .build();
+    }
+
+    default List<String> values() {
+        return Arrays.asList(
+            this.phone(),
+            this.email(),
+            this.dialCode(),
+            this.isoCode(),
+            DATE_FORMAT.format(this.creationDate())
+        );
     }
 }

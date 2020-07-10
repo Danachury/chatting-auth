@@ -1,4 +1,5 @@
 package com.dac.chatting.bussisness;
 
-public class Bussi {
+public interface UserService {
+
 }

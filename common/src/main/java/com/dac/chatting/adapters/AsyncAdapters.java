@@ -54,6 +54,8 @@ public interface AsyncAdapters {
      * @param observable RxJava Observable
      * @param <T>        Adapter value
      * @return new {@link CompletionStage} instance
+     * @see Observable
+     * @see CompletionStage
      */
     @NotNull
     static <T> CompletionStage<T> adaptObservable(@NotNull Observable<T> observable) {

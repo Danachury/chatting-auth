@@ -1,10 +1,14 @@
 package com.dac.chatting.services.impl;
 
-import com.dac.chatting.bussisness.bobj.Account;
+import akka.japi.Pair;
+import com.dac.chatting.jwt.JWTToken;
 import com.dac.chatting.services.AccountsService;
 import com.dac.chatting.services.AuthenticationService;
 import com.google.inject.Inject;
-import io.reactivex.rxjava3.core.Observable;
+
+import java.util.concurrent.CompletionStage;
+
+import static com.dac.chatting.adapters.AsyncAdapters.adaptObservable;
 
 public class AuthenticationServiceImpl implements AuthenticationService {
 
@@ -16,20 +20,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     /**
-     * @see AuthenticationService#getToken(String)
+     * @see AuthenticationService#generateToken(String)
      */
     @Override
-    public Observable<String> getToken(String phone) {
-        return this.accountsService
+    public CompletionStage<String> generateToken(String phone) {
+        return adaptObservable(this.accountsService
             .query(phone)
-            .map(Account::phone);
+            .map(account -> JWTToken.create(Pair.apply("phone", account.phone())))
+        );
     }
 
     /**
      * @see AuthenticationService#refreshToken(String)
      */
     @Override
-    public Observable<String> refreshToken(String token) {
+    public CompletionStage<String> refreshToken(String token) {
         return null;
     }
 
@@ -37,7 +42,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      * @see AuthenticationService#deleteToken(String)
      */
     @Override
-    public Observable<Boolean> deleteToken(String token) {
+    public CompletionStage<Boolean> deleteToken(String token) {
         return null;
     }
 }

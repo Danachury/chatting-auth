@@ -19,6 +19,16 @@ public class AccountsServiceImpl implements AccountsService {
     }
 
     /**
+     * @see AccountsService#create(Account)
+     */
+    @Override
+    public Observable<Boolean> create(Account account) {
+        return this.accountsRepository
+            .create(Account.toEntity(account))
+            .onErrorReturn(throwable -> false);
+    }
+
+    /**
      * @see AccountsService#query()
      */
     @Override
