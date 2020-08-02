@@ -22,7 +22,7 @@ public class CommonModule extends AbstractModule {
     @Provides
     @Singleton
     ActorSystem actorSystem(final Config config) {
-        return ActorSystem.create(systemName, config);
+        return ActorSystem.create(this.systemName, config);
     }
 
     @Provides
